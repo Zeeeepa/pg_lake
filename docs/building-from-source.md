@@ -94,10 +94,9 @@ export VCPKG_TOOLCHAIN_PATH="$(pwd)/vcpkg/scripts/buildsystems/vcpkg.cmake"
 
 # Make sure pg_config is in your PATH (e.g. export PATH=$HOME/pgsql-18/bin:$PATH):
 
-# install pg_lake extensions
-git clone https://github.com/snowflake-labs/pg_lake.git && \
-cd pg_lake/duckdb_pglake && make && make install && \
-cd .. && make install-avro-local && make fast && make install-fast
+# install pgduck_server and pg_lake extensions
+git clone https://github.com/snowflakedb/pg_lake.git && \
+cd pg_lake && make install
 ```
 
 For MacOS to work with `vcpkg`, you will need to install `cmake` via `brew`, however you cannot use the latest version of CMake, due to compatibility issues with other DuckDB plugins.  To install a known-working version of `cmake` using `brew`, run the following:
@@ -209,7 +208,7 @@ make -C src/test/isolation install
 export PATH=$HOME/pgsql/18/lib/pgxs/src/test/isolation:$PATH
 ```
 
-Build PostGIS (dependency of pg_lake_spatial):
+Build PostGIS (dependency of pg_lake_spatial (install postgis before `make install-pg_lake_spatial`)):
 
 ```bash
 git clone git@github.com:postgis/postgis.git
