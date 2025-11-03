@@ -257,18 +257,16 @@ ENV VCPKG_TOOLCHAIN_PATH="/home/postgres/vcpkg/scripts/buildsystems/vcpkg.cmake"
 ############## base image for pg_lake_postgres and pgduck_server ##############
 FROM dev_base AS base
 
-# Clone pg_lake_rename_dev project
-RUN --mount=type=ssh,uid=1001,gid=1001 \
-    mkdir -p -m 0700 ~/.ssh && \
-    ssh-keyscan github.com >> ~/.ssh/known_hosts && \
-    git clone git@github.com:snowflakedb/pg_lake_rename_dev.git \
-      --branch ${PG_LAKE_REF} --recurse-submodules /home/postgres/pg_lake_rename_dev
+# Clone pg_lake project
+RUN mkdir -p -m 0700 ~/.ssh && ssh-keyscan github.com >> ~/.ssh/known_hosts && \
+    git clone git@github.com:snowflake-labs/pg_lake.git \
+      --branch ${PG_LAKE_REF} --recurse-submodules /home/postgres/pg_lake
 
 ############## pg_lake_postgres ##############
 FROM base AS pg_lake_postgres
 
-# Install pg_lake_rename_dev
-RUN cd pg_lake_rename_dev && \
+# Install pg_lake
+RUN cd pg_lake && \
     make install-pg_extension_base && \
     make install-pg_map && \
     make install-pg_extension_updater && \
@@ -289,5 +287,5 @@ FROM base AS pgduck_server
 ARG PGCOMPAT_BUILD_CONFIG=Release
 
 # Install pgduck_server
-RUN cd pg_lake_rename_dev/duckdb_pglake && make && make install && rm -r build
-RUN cd pg_lake_rename_dev/pgduck_server && make && make install
+RUN cd pg_lake/duckdb_pglake && make && make install && rm -r build
+RUN cd pg_lake/pgduck_server && make && make install

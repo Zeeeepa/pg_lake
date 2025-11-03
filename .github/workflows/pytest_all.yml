@@ -12,7 +12,7 @@ concurrency:
 env:
   CDWREGIONTEST_ACCESS_KEY_ID: ${{ secrets.cdwregiontest_access_key_id }}
   CDWREGIONTEST_SECRET_ACCESS_KEY: ${{ secrets.cdwregiontest_secret_access_key }}
-  ORG: snowflakedb
+  ORG: snowflake-labs
 
 jobs:
   build-image-almalinux:
@@ -31,7 +31,7 @@ jobs:
     env:
       BASE_IMAGE_NAME: almalinux
       BASE_IMAGE_TAG: 9
-      FINAL_IMAGE_NAME: pglake-ci-pg-almalinux
+      FINAL_IMAGE_NAME: pg-lake-ci-pg-almalinux
 
     steps:
       - name: Checkout repository
@@ -63,7 +63,7 @@ jobs:
     env:
       BASE_IMAGE_NAME: debian
       BASE_IMAGE_TAG: bookworm-slim
-      FINAL_IMAGE_NAME: pglake-ci-pg-debian
+      FINAL_IMAGE_NAME: pg-lake-ci-pg-debian
 
     steps:
       - name: Checkout repository
@@ -84,7 +84,7 @@ jobs:
     runs-on: ubuntu-latest
 
     container:
-      image: ghcr.io/snowflakedb/pglake-ci-pg-almalinux:${{ needs.build-image-almalinux.outputs.tag }}
+      image: ghcr.io/snowflake-labs/pg-lake-ci-pg-almalinux:${{ needs.build-image-almalinux.outputs.tag }}
       options: --user 1001 --shm-size=128MB
       credentials:
         username: ${{ github.actor }}
@@ -109,7 +109,7 @@ jobs:
     runs-on: ubuntu-latest
 
     container:
-      image: ghcr.io/snowflakedb/pglake-ci-pg-debian:${{ needs.build-image-debian.outputs.tag }}
+      image: ghcr.io/snowflake-labs/pg-lake-ci-pg-debian:${{ needs.build-image-debian.outputs.tag }}
       options: --user 1001 --shm-size=128MB
       credentials:
         username: ${{ github.actor }}
@@ -133,7 +133,7 @@ jobs:
     needs: [build-image-almalinux, build-and-install-almalinux]
     runs-on: ubuntu-latest
     container:
-      image: ghcr.io/snowflakedb/pglake-ci-pg-almalinux:${{ needs.build-image-almalinux.outputs.tag }}
+      image: ghcr.io/snowflake-labs/pg-lake-ci-pg-almalinux:${{ needs.build-image-almalinux.outputs.tag }}
       options: --user 1001 --shm-size=128MB
       credentials:
         username: ${{ github.actor }}
@@ -171,7 +171,7 @@ jobs:
     needs: [build-image-almalinux, build-and-install-almalinux]
     runs-on: ubuntu-latest
     container:
-      image: ghcr.io/snowflakedb/pglake-ci-pg-almalinux:${{ needs.build-image-almalinux.outputs.tag }}
+      image: ghcr.io/snowflake-labs/pg-lake-ci-pg-almalinux:${{ needs.build-image-almalinux.outputs.tag }}
       options: --user 1001 --shm-size=128MB
       credentials:
         username: ${{ github.actor }}
@@ -203,7 +203,7 @@ jobs:
     needs: [build-image-debian, build-and-install-debian]
     runs-on: ubuntu-latest
     container:
-      image: ghcr.io/snowflakedb/pglake-ci-pg-debian:${{ needs.build-image-debian.outputs.tag }}
+      image: ghcr.io/snowflake-labs/pg-lake-ci-pg-debian:${{ needs.build-image-debian.outputs.tag }}
       options: --user 1001 --shm-size=128MB
       credentials:
         username: ${{ github.actor }}
@@ -239,7 +239,7 @@ jobs:
     needs: [build-image-debian, build-and-install-debian]
     runs-on: ubuntu-latest
     container:
-      image: ghcr.io/snowflakedb/pglake-ci-pg-debian:${{ needs.build-image-debian.outputs.tag }}
+      image: ghcr.io/snowflake-labs/pg-lake-ci-pg-debian:${{ needs.build-image-debian.outputs.tag }}
       options: --user 1001 --shm-size=128MB
       credentials:
         username: ${{ github.actor }}
@@ -278,7 +278,7 @@ jobs:
     needs: [build-image-debian, build-and-install-debian]
     runs-on: ubuntu-latest
     container:
-      image: ghcr.io/snowflakedb/pglake-ci-pg-debian:${{ needs.build-image-debian.outputs.tag }}
+      image: ghcr.io/snowflake-labs/pg-lake-ci-pg-debian:${{ needs.build-image-debian.outputs.tag }}
       options: --user 1001 --shm-size=128MB
       credentials:
         username: ${{ github.actor }}
@@ -311,7 +311,7 @@ jobs:
     needs: [build-image-almalinux, build-and-install-almalinux]
     runs-on: ubuntu-latest
     container:
-      image: ghcr.io/snowflakedb/pglake-ci-pg-almalinux:${{ needs.build-image-almalinux.outputs.tag }}
+      image: ghcr.io/snowflake-labs/pg-lake-ci-pg-almalinux:${{ needs.build-image-almalinux.outputs.tag }}
       options: --user 1001 --shm-size=128MB
       credentials:
         username: ${{ github.actor }}
@@ -340,7 +340,7 @@ jobs:
     needs: [build-image-almalinux, build-and-install-almalinux]
     runs-on: ubuntu-latest
     container:
-      image: ghcr.io/snowflakedb/pglake-ci-pg-almalinux:${{ needs.build-image-almalinux.outputs.tag }}
+      image: ghcr.io/snowflake-labs/pg-lake-ci-pg-almalinux:${{ needs.build-image-almalinux.outputs.tag }}
       options: --user 1001 --shm-size=128MB
       credentials:
         username: ${{ github.actor }}
