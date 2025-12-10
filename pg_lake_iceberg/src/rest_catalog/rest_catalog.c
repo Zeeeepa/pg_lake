@@ -46,6 +46,7 @@
 
 /* determined by GUC */
 char	   *RestCatalogHost = "http://localhost:8181";
+char       *RestCatalogOauthHostPath = "";
 char	   *RestCatalogClientId = NULL;
 char	   *RestCatalogClientSecret = NULL;
 
@@ -563,7 +564,11 @@ FetchRestCatalogAccessToken(char **accessToken, int *expiresIn)
 	if (!RestCatalogClientSecret || !*RestCatalogClientSecret)
 		ereport(ERROR, (errmsg("pg_lake_iceberg.rest_catalog_client_secret should be set")));
 
-	char	   *accessTokenUrl = psprintf(REST_CATALOG_AUTH_TOKEN_PATH, RestCatalogHost);
+    char *accessTokenUrl = RestCatalogOauthHostPath;
+
+    /* if pg_lake_iceberg.rest_catalog_oauth_host_path is not set, use Polaris' default oauth token endpoint */
+    if (*accessTokenUrl == '\0')
+        accessTokenUrl = psprintf(REST_CATALOG_AUTH_TOKEN_PATH, RestCatalogHost);
 
 	/* Build Authorization: Basic <base64(clientId:clientSecret)> */
 	char	   *encodedAuth = EncodeBasicAuth(RestCatalogClientId, RestCatalogClientSecret);
