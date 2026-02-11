@@ -126,7 +126,7 @@ RUN if [ "$BASE_IMAGE_OS" = "debian" ]; then \
         wget https://download.oracle.com/java/21/latest/jdk-21_linux-${ARCH}_bin.tar.gz && \
         mkdir -p /usr/lib/jvm && \
         tar -xzf jdk-21_linux-${ARCH}_bin.tar.gz -C /usr/lib/jvm/ && \
-        mv /usr/lib/jvm/jdk-21.0.9 /usr/lib/jvm/java-21-openjdk && \
+        mv /usr/lib/jvm/jdk-21.0.10 /usr/lib/jvm/java-21-openjdk && \
         rm jdk-21_linux-${ARCH}_bin.tar.gz; \
     fi
 
@@ -251,7 +251,7 @@ RUN git clone https://github.com/CrunchyData/pg_incremental.git && \
     cd .. && rm -rf pg_incremental
 
 # Install vcpkg as postgres user
-ARG VCPKG_VERSION=2025.01.13
+ARG VCPKG_VERSION=2025.10.17
 
 RUN git clone https://github.com/Microsoft/vcpkg.git -b $VCPKG_VERSION /home/postgres/vcpkg && \
     ./vcpkg/bootstrap-vcpkg.sh && \
